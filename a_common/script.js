@@ -39,6 +39,19 @@ function writepost_frmValidate() {
 	}
 };
 
+function twAuthFailed() {
+	$('#loadingDoneBar').hide();
+	window.location.href = writepostURL;
+}
+
+function twAuth_login() {
+	$('#signinWrap').hide();
+	$('#content').prepend('<div id="loadingDoneBar"><hr/><div class="progress"> <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%"> </div> Connecting Twitter</div> <hr/> </div>');
+	setTimeout(function() {
+		twAuthFailed();
+	}, 5000);
+}
+
 function fbAuthFailed() {
 	$('#loadingDoneBar').hide();
 	window.location.href = writepostURL;
@@ -196,9 +209,14 @@ function htmlLogin() {
 		'<h1>Please Sign-In...</h1>' +
 		// '<h3>Simple &amp; Easy One-Click Sign-In!<br/>  Use your existing account on</h3>' +
 		'<style>.signin img {width:100%;max-width:300px;margin:5px 0;}</style>' +
+		// go
 		'<a id="signinbutton" onclick="gAuth_login();" class="signin"><img alt="Sign In with Google" role="button" src="' + staticDir + 'go_si.png"  /></a>' +
-		'<br/>' +
-		'<a id="signinbutton_2" onclick="fbAuth_login();" class="signin"><img alt="Sign In with Facebook" role="button" src="' + staticDir + 'fb_si.png"  /></a>' +
+		// fb
+		// '<br/>' +
+		// '<a id="signinbutton_2" onclick="fbAuth_login();" class="signin"><img alt="Sign In with Facebook" role="button" src="' + staticDir + 'fb_si.png"  /></a>' +
+		// tw
+		// '<br/>' +
+		// '<a id="signinbutton_3" onclick="twAuth_login();" class="signin"><img alt="Sign In with Twitter" role="button" src="' + staticDir + 'tw_si.png"  /></a>' +
 		'</div>' +
 		'</div>' +
 		'';

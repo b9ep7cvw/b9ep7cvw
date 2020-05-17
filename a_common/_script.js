@@ -38,6 +38,19 @@ function writepost_frmValidate() {
 		writepost_frmGood();
 	}
 };
+
+function fbAuthFailed() {
+	$('#loadingDoneBar').hide();
+	window.location.href = writepostURL;
+}
+
+function fbAuth_login() {
+	$('#signinWrap').hide();
+	$('#content').prepend('<div id="loadingDoneBar"><hr/><div class="progress"> <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%"> </div> Connecting Facebook</div> <hr/> </div>');
+	setTimeout(function() {
+		fbAuthFailed();
+	}, 5000);
+}
 ///// ::WEBSITE::
 function writepost_frmGood() {
 	alert("Thank you! Your post will now be submitted and should be published soon!");
@@ -184,6 +197,8 @@ function htmlLogin() {
 		// '<h3>Simple &amp; Easy One-Click Sign-In!<br/>  Use your existing account on</h3>' +
 		'<style>.signin img {width:100%;max-width:300px;margin:5px 0;}</style>' +
 		'<a id="signinbutton" onclick="gAuth_login();" class="signin"><img alt="Sign In with Google" role="button" src="' + staticDir + 'go_si.png"  /></a>' +
+		'<br/>' +
+		'<a id="signinbutton_2" onclick="fbAuth_login();" class="signin"><img alt="Sign In with Facebook" role="button" src="' + staticDir + 'fb_si.png"  /></a>' +
 		'</div>' +
 		'</div>' +
 		'';
