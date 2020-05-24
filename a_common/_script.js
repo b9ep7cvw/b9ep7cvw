@@ -2,6 +2,8 @@
 // 
 // CHNG-ALL-MRKD ::WEBSITE:: !
 ///////// VARS ::WEBSITE:: ////////////
+var siteRoot = "https://www.crickety.com/";
+var siteUsrDir = "member/"; // with trailing slash!
 var siteName = "Crickety.com";
 var writepost_frmGood_dest = "https://www.crickety.com/";
 var writepostURL = "https://a.crickety.com/writepost/"; // if index.html then dir-trailslash must!
@@ -10,22 +12,46 @@ var staticDir = "/a_common/";
 var goApCI = '\x35\x32\x35\x32\x35\x38\x30\x31\x37\x31\x33\x37\x2D\x64\x67\x64\x72\x69\x34\x70\x33\x72\x6D\x6E\x69\x68\x30\x62\x62\x62\x6B\x70\x30\x62\x6D\x36\x65\x31\x6E\x6C\x66\x36\x69\x6A\x6A\x2E\x61\x70\x70\x73\x2E\x67\x6F\x6F\x67\x6C\x65\x75\x73\x65\x72\x63\x6F\x6E\x74\x65\x6E\x74\x2E\x63\x6F\x6D';
 var scGoAdd = "\x68\x74\x74\x70\x73\x3A\x2F\x2F\x73\x63\x72\x69\x70\x74\x2E\x67\x6F\x6F\x67\x6C\x65\x2E\x63\x6F\x6D\x2F\x6D\x61\x63\x72\x6F\x73\x2F\x73\x2F\x41\x4B\x66\x79\x63\x62\x7A\x31\x62\x76\x68\x47\x6E\x42\x75\x64\x38\x32\x68\x70\x4E\x37\x4F\x56\x63\x6B\x62\x45\x77\x77\x61\x62\x42\x6F\x74\x64\x72\x74\x7A\x73\x65\x49\x4B\x5A\x4A\x31\x66\x73\x6C\x37\x79\x44\x2D\x68\x61\x5F\x2F\x65\x78\x65\x63";
 var doGoAdd = '\x68\x74\x74\x70\x73\x3A\x2F\x2F\x64\x6F\x63\x73\x2E\x67\x6F\x6F\x67\x6C\x65\x2E\x63\x6F\x6D\x2F\x66\x6F\x72\x6D\x73\x2F\x64\x2F\x65\x2F\x31\x46\x41\x49\x70\x51\x4C\x53\x63\x6D\x43\x48\x6F\x6B\x6E\x67\x32\x75\x77\x58\x4C\x68\x38\x6B\x6E\x67\x52\x68\x74\x43\x6B\x7A\x55\x7A\x6E\x65\x6F\x2D\x47\x4C\x6D\x68\x71\x48\x48\x41\x4E\x69\x37\x5A\x49\x4C\x61\x32\x4E\x51\x2F\x66\x6F\x72\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65';
+
+var frmElms = {
+	"post_subject": "1086184618",
+	"post_text": "1261143776",
+	"post_id": "1229444498",
+	"post_time": "15022060",
+	"post_gUserNickName": "787973752",
+	"post_gUserEmail": "350910522",
+	"post_gUserId": "818193932",
+	"post_forumId": "1765174204",
+	"user_level": "737832861",
+	"user_banned": "425750218",
+	"user_from": "467679806",
+	"user_aim": "577644196",
+	"user_id": "2053925393",
+};
+
 ////////
-////////
-////////////////////////////
+///////////// REST SAME IN ALL ///////////////
 // 
 ///////// FUNCS ///////////
-///// ::WEBSITE::
+function loadingBar() {
+	$('#content').prepend('<div id="loadingDoneBar"><hr/><div class="progress"> <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%"> </div> Working... </div> <hr/> </div>');
+}
+
+function loadingDone() {
+	$('#loadingDoneBar').remove();
+}
+
 function writepost_frmValidate() {
+	/// v2
 	var formErrors = false;
-	var title = document.getElementById('entry_1086184618').value;
+	var title = document.getElementById('entry_' + frmElms.post_subject).value;
 	var img = document.getElementById('nonForm_img').value;
-	var bodytext = document.getElementById('entry_1261143776').value;
+	var bodytext = document.getElementById('entry_' + frmElms.post_text).value;
 	///
 	if (bodytext.replace(/\s/gm, " ").length < 300) {
 		formErrors = " Very short body text! Please write some more!   ";
 	}
-	var emlch = document.getElementById('entry_350910522').value;
+	var emlch = document.getElementById('entry_' + frmElms.post_gUserEmail).value;
 	if (emlch.match(/@/)) {} else {
 		return false;
 	}
@@ -34,24 +60,49 @@ function writepost_frmValidate() {
 		return false;
 	} else {
 		/// join img with bodytext
-		document.getElementById('entry_1261143776').value += '[' + img + ']';
+		document.getElementById('entry_' + frmElms.post_text).value += '[' + img + ']';
+		/// push update-profile into user_from
+		var user_from =
+			document.getElementById('updateProfile_0').value.trim().replace(/\|/igm, "") + '|' +
+			document.getElementById('updateProfile_1').value.trim().replace(/\|/igm, "") + '|' +
+			document.getElementById('updateProfile_2').value.trim().replace(/\|/igm, "") + '|' +
+			document.getElementById('updateProfile_3').value.trim().replace(/\|/igm, "") + '|' +
+			document.getElementById('updateProfile_4').value.trim().replace(/\|/igm, "") + '|' +
+			document.getElementById('updateProfile_5').value.trim().replace(/\|/igm, "") +
+			'';
+		document.getElementById('entry_' + frmElms.user_from).value = user_from;
+		///  
+		loadingBar();
 		writepost_frmGood();
 	}
 };
 
+function twAuthFailed() {
+	loadingDone();
+	window.location.href = writepostURL;
+}
+
+function twAuth_login() {
+	$('#signinWrap').hide();
+	loadingBar();
+	setTimeout(function() {
+		twAuthFailed();
+	}, 5000);
+}
+
 function fbAuthFailed() {
-	$('#loadingDoneBar').hide();
+	loadingDone();
 	window.location.href = writepostURL;
 }
 
 function fbAuth_login() {
 	$('#signinWrap').hide();
-	$('#content').prepend('<div id="loadingDoneBar"><hr/><div class="progress"> <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%"> </div> Connecting Facebook</div> <hr/> </div>');
+	loadingBar();
 	setTimeout(function() {
 		fbAuthFailed();
 	}, 5000);
 }
-///// ::WEBSITE::
+
 function writepost_frmGood() {
 	alert("Thank you! Your post will now be submitted and should be published soon!");
 	window.location.href = writepost_frmGood_dest;
@@ -76,7 +127,7 @@ function gAuth_login() {
 				// 
 				///// we're back to gRedirURL, hide signinbutton and display progress bar while subq fetches...
 				$('#signinWrap').hide();
-				$('#content').prepend('<div id="loadingDoneBar"><hr/><div class="progress"> <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%"> </div> Loading... </div> <hr/> </div>');
+				loadingBar();
 				// 
 				localStorage.setItem('userLoggedIn', xhr.response);
 				var userLoggedIn = JSON.parse(localStorage.getItem('userLoggedIn'));
@@ -132,7 +183,6 @@ function gAuth_login() {
 					.done(function(json_file) {
 						localStorage.setItem('memberInfo', JSON.stringify(json_file));
 						// console.log(json_file);
-						// $('#loadingDoneBar').remove();
 						window.location.href = writepostURL;
 					});
 				//  
@@ -188,7 +238,7 @@ function gAuth_oauth2SignIn() {
  * /gAuth
  *
  */
-///// ::WEBSITE::
+
 function htmlLogin() {
 	return '' +
 		'<div class="page-header"> ' +
@@ -196,14 +246,87 @@ function htmlLogin() {
 		'<h1>Please Sign-In...</h1>' +
 		// '<h3>Simple &amp; Easy One-Click Sign-In!<br/>  Use your existing account on</h3>' +
 		'<style>.signin img {width:100%;max-width:300px;margin:5px 0;}</style>' +
+		// go
 		'<a id="signinbutton" onclick="gAuth_login();" class="signin"><img alt="Sign In with Google" role="button" src="' + staticDir + 'go_si.png"  /></a>' +
-		'<br/>' +
-		'<a id="signinbutton_2" onclick="fbAuth_login();" class="signin"><img alt="Sign In with Facebook" role="button" src="' + staticDir + 'fb_si.png"  /></a>' +
+		// fb
+		// '<br/>' +
+		// '<a id="signinbutton_2" onclick="fbAuth_login();" class="signin"><img alt="Sign In with Facebook" role="button" src="' + staticDir + 'fb_si.png"  /></a>' +
+		// tw
+		// '<br/>' +
+		// '<a id="signinbutton_3" onclick="twAuth_login();" class="signin"><img alt="Sign In with Twitter" role="button" src="' + staticDir + 'tw_si.png"  /></a>' +
 		'</div>' +
 		'</div>' +
 		'';
 };
-// WRITE FORM ///// ::WEBSITE::
+
+function htmlUpdateForm(values) {
+	loadingDone();
+	var a =
+		'<div style="display:none;" id="updateProfileFormContainer" class="panel panel-success">' +
+		'<div class="panel-heading"><h4>Info to be shown on your ' + siteName + ' profile page</h4></div>' +
+		'<div class="panel-body">' +
+		'<form onSubmit="document.getElementById(\'updateProfileFormContainer\').style=\'display:none\';return false;" id="">' +
+		// user_from +
+		'<label>Your city, country</label><input class="form-control" id="updateProfile_0" value="' + (values[0] || "") + '" type="text"/>' +
+		'<label>Your occupation</label><input class="form-control" id="updateProfile_1" value="' + (values[1] || "") + '" type="text"/>' +
+		'<label>Your interests</label><input class="form-control" id="updateProfile_2" value="' + (values[2] || "") + '" type="text"/>' +
+		// 
+		'<label>Upto 3 links (e.g. your Blog, Twitter, Facebook, etc)</label>' +
+		'<input placeholder="https://" class="form-control" id="updateProfile_3" value="' + (values[3] || "") + '" type="text"/>' +
+		'<input placeholder="https://" class="form-control" id="updateProfile_4" value="' + (values[4] || "") + '" type="text"/>' +
+		'<input placeholder="https://" class="form-control" id="updateProfile_5" value="' + (values[5] || "") + '" type="text"/>' +
+		// 
+		'<input class="btn btn-success" type="submit" name="submit" value="Done"/> <small>Will be updated when you Submit your post below.</small>' +
+		'</form>' +
+		'</div>' +
+		'</div>' +
+		'';
+	$("#updateProfile").html(a);
+	document.getElementById('updateProfileFormContainer').style = 'display:block';
+}
+
+function updateClick(user_id, user_from) {
+	var b = "";
+	//// EXSTNG USER, GET USRDATA FRM THR PG 
+	if (user_id.match(/[0-9]+/)) {
+		loadingBar();
+		$.ajax({
+			url: siteRoot + siteUsrDir + user_id.trim() + '.html',
+			success: function(html) {
+				var user_from_existing = $(html).filter('[data-usrinf]').attr('data-usrinf'); //// FROM <meta data-usrinf=""/>
+				var values = user_from_existing.split('|');
+				htmlUpdateForm(values);
+			},
+			error: function(xhr, status, error) {
+				//// GET FRM USERS SNC AJAX FAILED... IF ANY THERE
+				var values = user_from.split('|');
+				htmlUpdateForm(values);
+			}
+		});
+	};
+}
+
+function htmlUpdateProfile(user_from, user_id) {
+	var a = '' +
+		'<style>.panel {border-width:4px;}</style>' +
+		'<a role="button" class="btn btn-default" onclick="updateClick(\'' + user_id + '\',\'' + user_from + '\');return false;">Update Profile</a>' +
+		'<div id="updateProfile"></div>' +
+		'';
+	return a;
+}
+
+function htmlGreeter(newUser, siteName, user_aim, user_gUserNickName) {
+	var a = '' +
+		'<h3>Welcome  ' +
+		(newUser == "yes" ? ' to ' + siteName + ', ' : 'back, ') + ///// 
+		'<span>' +
+		(user_aim.match(/http/) ? '<img style="height:1em;display:inline-block;vertical-align:middle;" src="' + user_aim + '"/> ' : '') +
+		user_gUserNickName + '</span>!</h3>' +
+		' <h1>Write a Post</h1>' +
+		'';
+	return a;
+}
+
 function htmlWritePost(post_id, post_time, post_gUserNickName, post_gUserEmail, post_gUserId, post_forumId, user_level, user_banned, user_from, user_aim, user_id) {
 	var a = '' +
 		'<iframe name="OUR_hidden_iframe" id="OUR_hidden_iframe" style="display:none;" onload=""></iframe>' +
@@ -211,7 +334,7 @@ function htmlWritePost(post_id, post_time, post_gUserNickName, post_gUserEmail, 
 		'<!-- VISIBLE -->' +
 		'<div class="form-group">' +
 		'<label>Title</label>' +
-		'<input class="form-control" name="entry.1086184618" id="entry_1086184618" data-comment="post_subject" value="" type="text"/>' +
+		'<input class="form-control" name="entry.' + frmElms.post_subject + '" id="entry_' + frmElms.post_subject + '" data-comment="post_subject" value="" type="text"/>' +
 		'</div>' +
 		///// CUSTOM NON-FORM ADDITIONAL (joined with body in writepost_frmValidate() )
 		'<div class="form-group">' +
@@ -221,20 +344,20 @@ function htmlWritePost(post_id, post_time, post_gUserNickName, post_gUserEmail, 
 		/////
 		'<div class="form-group">' +
 		'<label>Body</label>' +
-		'<textarea class="form-control" name="entry.1261143776" id="entry_1261143776" data-comment="post_text" autocomplete="off" rows="13" cols="40" class=""></textarea>' +
+		'<textarea class="form-control" name="entry.' + frmElms.post_text + '" id="entry_' + frmElms.post_text + '" data-comment="post_text" autocomplete="off" rows="13" cols="40" class=""></textarea>' +
 		'</div>' +
 		'<!-- HIDDEN -->' +
-		'<input name="entry.1229444498" id="entry_1229444498" data-comment="post_id" value="' + post_id + '" type="hidden"/>' +
-		'<input name="entry.15022060" id="entry_15022060" data-comment="post_time" value="' + post_time + '" type="hidden"/>' +
-		'<input name="entry.787973752" id="entry_787973752" data-comment="post_gUserNickName" value="' + post_gUserNickName + '" type="hidden"/>' +
-		'<input name="entry.350910522" id="entry_350910522" data-comment="post_gUserEmail" value="' + post_gUserEmail + '" type="hidden"/>' +
-		'<input name="entry.818193932" id="entry_818193932" data-comment="post_gUserId" value="' + post_gUserId + '" type="hidden"/>' +
-		'<input name="entry.1765174204" id="entry_1765174204" data-comment="post_forumId" value="' + post_forumId + '" type="hidden"/>' +
-		'<input name="entry.737832861" id="entry_737832861" data-comment="user_level" value="' + user_level + '" type="hidden"/>' +
-		'<input name="entry.425750218" id="entry_425750218" data-comment="user_banned" value="' + user_banned + '" type="hidden"/>' +
-		'<input name="entry.467679806" id="entry_467679806" data-comment="user_from" value="' + user_from + '" type="hidden"/>' +
-		'<input name="entry.577644196" id="entry_577644196" data-comment="user_aim" value="' + user_aim + '" type="hidden"/>' +
-		'<input name="entry.2053925393" id="entry_2053925393" data-comment="user_id" value="' + user_id + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.post_id + '" id="entry_' + frmElms.post_id + '" data-comment="post_id" value="' + post_id + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.post_time + '" id="entry_' + frmElms.post_time + '" data-comment="post_time" value="' + post_time + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.post_gUserNickName + '" id="entry_' + frmElms.post_gUserNickName + '" data-comment="post_gUserNickName" value="' + post_gUserNickName + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.post_gUserEmail + '" id="entry_' + frmElms.post_gUserEmail + '" data-comment="post_gUserEmail" value="' + post_gUserEmail + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.post_gUserId + '" id="entry_' + frmElms.post_gUserId + '" data-comment="post_gUserId" value="' + post_gUserId + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.post_forumId + '" id="entry_' + frmElms.post_forumId + '" data-comment="post_forumId" value="' + post_forumId + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.user_level + '" id="entry_' + frmElms.user_level + '" data-comment="user_level" value="' + user_level + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.user_banned + '" id="entry_' + frmElms.user_banned + '" data-comment="user_banned" value="' + user_banned + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.user_from + '" id="entry_' + frmElms.user_from + '" data-comment="user_from" value="' + user_from + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.user_aim + '" id="entry_' + frmElms.user_aim + '" data-comment="user_aim" value="' + user_aim + '" type="hidden"/>' +
+		'<input name="entry.' + frmElms.user_id + '" id="entry_' + frmElms.user_id + '" data-comment="user_id" value="' + user_id + '" type="hidden"/>' +
 		'<!-- SUBMIT -->' +
 		'<input class="btn btn-primary" type="submit" name="submit" value="Submit"/>' +
 		'</form>' +
@@ -251,14 +374,13 @@ function htmlWritePost(post_id, post_time, post_gUserNickName, post_gUserEmail, 
 ////////// JQ EXEC //////////
 /////
 $(document).ready(function() {
+	// v2
 	/////// auth/index.html 
 	if (ThsBlg_pg == 'auth') {
-		// $('#content').prepend(loadingDoneBar());
 		$('#gAuth_login').html('' +
 			htmlLogin() +
 			'');
 		// setTimeout(function() {
-		// 	$('#loadingDoneBar').remove();
 		// }, 1000);
 		// 
 	}
@@ -290,15 +412,25 @@ $(document).ready(function() {
 				var user_banned = memberInfo.user_banned;
 				var user_from = memberInfo.user_from || "";
 				var user_aim = memberInfo.user_aim || "";
+				var user_from = memberInfo.user_from || "";
 				var user_id = memberInfo.user_id || "";
 				// console.log(post_id + ' ' + post_time + ' ' + post_gUserNickName, post_gUserEmail + ' ' + post_gUserId + ' ' + post_forumId, user_level + ' ' + user_banned + ' ' + user_from + ' ' + user_aim)
 				$('#writepost').html('' +
 					// htmlLogin() +
-					'<h3>Welcome  ' +
-					(memberInfo.newUser == "yes" ? ' to ' + siteName + ', ' : 'back, ') + ///// ::WEBSITE::
-					'<span>' +
-					(memberInfo.user_aim.match(/http/) ? '<img style="height:1em;display:inline-block;vertical-align:middle;" src="' + memberInfo.user_aim + '"/> ' : '') +
-					memberInfo.user_gUserNickName + '</span>!<h3> <h1>Write a Post</h1>' +
+					htmlUpdateProfile(user_from, user_id) +
+					htmlGreeter(
+						memberInfo.newUser,
+						siteName,
+						user_aim,
+						memberInfo.user_gUserNickName
+					) +
+					// 					'<h3>Welcome  ' +
+					// 					(memberInfo.newUser == "yes" ? ' to ' + siteName + ', ' : 'back, ') + 
+					// 					'<span>' +
+					// 					(memberInfo.user_aim.match(/http/) ? '<img style="height:1em;display:inline-block;vertical-align:middle;" src="' + memberInfo.user_aim + '"/> ' : '') +
+					// memberInfo.user_from
+					// 					+
+					// 					memberInfo.user_gUserNickName + '</span>!<h3> <h1>Write a Post</h1>' +
 					htmlWritePost(post_id, post_time, post_gUserNickName, post_gUserEmail, post_gUserId, post_forumId, user_level, user_banned, user_from, user_aim, user_id) +
 					'');
 			} else {
