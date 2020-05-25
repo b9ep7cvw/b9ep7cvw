@@ -86,6 +86,16 @@ function writepost_frmValidate() {
 	}
 };
 
+function writepost_frmGood() {
+	document.getElementById('writepost').style.display = "none"; // must be hidden, not removed!
+	document.getElementById('footer').style.display = "none";
+	$('#submitMsgOK').remove();
+	$('#content').append('<div id="submitMsgOK" class="well"><div class="alert alert-success" role="alert">' + submitMsgOK + ' <p><a class="btn btn-success btn-lg" role="button" href="' + writepost_frmGood_dest + '">OK</a></p></div></div>');
+	loadingDone();
+	// alert(submitMsgOK);
+	// window.location.href = writepost_frmGood_dest;
+};
+
 function twAuthFailed() {
 	loadingDone();
 	window.location.href = writepostURL;
@@ -111,11 +121,6 @@ function fbAuth_login() {
 		fbAuthFailed();
 	}, 5000);
 }
-
-function writepost_frmGood() {
-	alert(submitMsgOK);
-	window.location.href = writepost_frmGood_dest;
-};
 /**
  *
  * gAuth
@@ -273,7 +278,7 @@ function htmlUpdateForm(values) {
 		'<div style="display:none;" id="updateProfileFormContainer" class="panel panel-success">' +
 		'<div class="panel-heading"><h4>Info to be shown on your ' + siteName + ' profile page</h4></div>' +
 		'<div class="panel-body">' +
-		'<form onSubmit="document.getElementById(\'updateProfileFormContainer\').style=\'display:none\';return false;" id="">' +
+		'<form onSubmit="document.getElementById(\'updateProfileFormContainer\').style=\'display:none\';return false;" id="updateProfileForm">' +
 		// user_from +
 		'<label>Your city, country</label><input class="form-control" id="updateProfile_0" value="' + (values[0] || "") + '" type="text"/>' +
 		'<label>Your occupation</label><input class="form-control" id="updateProfile_1" value="' + (values[1] || "") + '" type="text"/>' +
@@ -338,7 +343,7 @@ function htmlGreeter(newUser, siteName, user_aim, user_gUserNickName) {
 function htmlWritePost(post_id, post_time, post_gUserNickName, post_gUserEmail, post_gUserId, post_forumId, user_level, user_banned, user_from, user_aim, user_id) {
 	var a = '' +
 		'<iframe name="OUR_hidden_iframe" id="OUR_hidden_iframe" style="display:none;" onload=""></iframe>' +
-		'<form onSubmit="return writepost_frmValidate()" action="' + doGoAdd + '" name="unique_frm_name" id="unique_frm_id" target="OUR_hidden_iframe">' +
+		'<form onSubmit="return writepost_frmValidate()" action="' + doGoAdd + '" name="unique_frm_name" id="htmlWritePostForm" target="OUR_hidden_iframe">' +
 		'<!-- VISIBLE -->' +
 		'<div class="form-group">' +
 		'<label>Title</label>' +
