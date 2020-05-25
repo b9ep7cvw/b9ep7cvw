@@ -12,7 +12,6 @@ var staticDir = "/a_common/";
 var goApCI = '\x35\x32\x35\x32\x35\x38\x30\x31\x37\x31\x33\x37\x2D\x64\x67\x64\x72\x69\x34\x70\x33\x72\x6D\x6E\x69\x68\x30\x62\x62\x62\x6B\x70\x30\x62\x6D\x36\x65\x31\x6E\x6C\x66\x36\x69\x6A\x6A\x2E\x61\x70\x70\x73\x2E\x67\x6F\x6F\x67\x6C\x65\x75\x73\x65\x72\x63\x6F\x6E\x74\x65\x6E\x74\x2E\x63\x6F\x6D';
 var scGoAdd = "\x68\x74\x74\x70\x73\x3A\x2F\x2F\x73\x63\x72\x69\x70\x74\x2E\x67\x6F\x6F\x67\x6C\x65\x2E\x63\x6F\x6D\x2F\x6D\x61\x63\x72\x6F\x73\x2F\x73\x2F\x41\x4B\x66\x79\x63\x62\x7A\x31\x62\x76\x68\x47\x6E\x42\x75\x64\x38\x32\x68\x70\x4E\x37\x4F\x56\x63\x6B\x62\x45\x77\x77\x61\x62\x42\x6F\x74\x64\x72\x74\x7A\x73\x65\x49\x4B\x5A\x4A\x31\x66\x73\x6C\x37\x79\x44\x2D\x68\x61\x5F\x2F\x65\x78\x65\x63";
 var doGoAdd = '\x68\x74\x74\x70\x73\x3A\x2F\x2F\x64\x6F\x63\x73\x2E\x67\x6F\x6F\x67\x6C\x65\x2E\x63\x6F\x6D\x2F\x66\x6F\x72\x6D\x73\x2F\x64\x2F\x65\x2F\x31\x46\x41\x49\x70\x51\x4C\x53\x63\x6D\x43\x48\x6F\x6B\x6E\x67\x32\x75\x77\x58\x4C\x68\x38\x6B\x6E\x67\x52\x68\x74\x43\x6B\x7A\x55\x7A\x6E\x65\x6F\x2D\x47\x4C\x6D\x68\x71\x48\x48\x41\x4E\x69\x37\x5A\x49\x4C\x61\x32\x4E\x51\x2F\x66\x6F\x72\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65';
-
 var frmElms = {
 	"post_subject": "1086184618",
 	"post_text": "1261143776",
@@ -28,7 +27,6 @@ var frmElms = {
 	"user_aim": "577644196",
 	"user_id": "2053925393",
 };
-
 ////////
 ///////////// REST SAME IN ALL ///////////////
 // 
@@ -62,14 +60,17 @@ function writepost_frmValidate() {
 		/// join img with bodytext
 		document.getElementById('entry_' + frmElms.post_text).value += '[' + img + ']';
 		/// push update-profile into user_from
-		var user_from =
-			document.getElementById('updateProfile_0').value.trim().replace(/\|/igm, "") + '|' +
-			document.getElementById('updateProfile_1').value.trim().replace(/\|/igm, "") + '|' +
-			document.getElementById('updateProfile_2').value.trim().replace(/\|/igm, "") + '|' +
-			document.getElementById('updateProfile_3').value.trim().replace(/\|/igm, "") + '|' +
-			document.getElementById('updateProfile_4').value.trim().replace(/\|/igm, "") + '|' +
-			document.getElementById('updateProfile_5').value.trim().replace(/\|/igm, "") +
-			'';
+		var user_from = "";
+		try {
+			user_from =
+				document.getElementById('updateProfile_0').value.trim().replace(/\|/igm, "") + '|' +
+				document.getElementById('updateProfile_1').value.trim().replace(/\|/igm, "") + '|' +
+				document.getElementById('updateProfile_2').value.trim().replace(/\|/igm, "") + '|' +
+				document.getElementById('updateProfile_3').value.trim().replace(/\|/igm, "") + '|' +
+				document.getElementById('updateProfile_4').value.trim().replace(/\|/igm, "") + '|' +
+				document.getElementById('updateProfile_5').value.trim().replace(/\|/igm, "") +
+				'';
+		} catch (e) {}
 		document.getElementById('entry_' + frmElms.user_from).value = user_from;
 		///  
 		loadingBar();
@@ -238,7 +239,6 @@ function gAuth_oauth2SignIn() {
  * /gAuth
  *
  */
-
 function htmlLogin() {
 	return '' +
 		'<div class="page-header"> ' +
