@@ -445,6 +445,7 @@ $(document).ready(function() {
 				////////////////////
 				var textarea = document.getElementById('entry_' + frmElms.post_text);
 				sceditor.create(textarea, {
+					emoticonsEnabled: false,
 					toolbar: 'bold,italic|bulletlist,orderedlist,quote|image,youtube|link,unlink|removeformat,maximize',
 					format: 'xhtml',
 					style: 'https://cdnjs.cloudflare.com/ajax/libs/sceditor/2.1.3/themes/default.min.css'

@@ -1,4 +1,4 @@
-// c.crickety.com script
+// c.crickety.com writepost script
 // 
 // CHNG-ALL-MRKD ::WEBSITE:: !
 ///////// VARS ::WEBSITE:: ////////////
@@ -9,6 +9,9 @@ var writepost_frmGood_dest = "https://www.crickety.com/";
 var writepostURL = "https://a.crickety.com/writepost/"; // if index.html then dir-trailslash must!
 var gRedirURL = 'https://a.crickety.com/signin/auth/';
 var staticDir = "/a_common/";
+var submitWarn = ''; /// msg before Submit btn
+var submitMsgOK = 'Thank you! Your post will now be submitted and should be published soon!';
+// 
 var goApCI = '\x35\x32\x35\x32\x35\x38\x30\x31\x37\x31\x33\x37\x2D\x64\x67\x64\x72\x69\x34\x70\x33\x72\x6D\x6E\x69\x68\x30\x62\x62\x62\x6B\x70\x30\x62\x6D\x36\x65\x31\x6E\x6C\x66\x36\x69\x6A\x6A\x2E\x61\x70\x70\x73\x2E\x67\x6F\x6F\x67\x6C\x65\x75\x73\x65\x72\x63\x6F\x6E\x74\x65\x6E\x74\x2E\x63\x6F\x6D';
 var scGoAdd = "\x68\x74\x74\x70\x73\x3A\x2F\x2F\x73\x63\x72\x69\x70\x74\x2E\x67\x6F\x6F\x67\x6C\x65\x2E\x63\x6F\x6D\x2F\x6D\x61\x63\x72\x6F\x73\x2F\x73\x2F\x41\x4B\x66\x79\x63\x62\x7A\x31\x62\x76\x68\x47\x6E\x42\x75\x64\x38\x32\x68\x70\x4E\x37\x4F\x56\x63\x6B\x62\x45\x77\x77\x61\x62\x42\x6F\x74\x64\x72\x74\x7A\x73\x65\x49\x4B\x5A\x4A\x31\x66\x73\x6C\x37\x79\x44\x2D\x68\x61\x5F\x2F\x65\x78\x65\x63";
 var doGoAdd = '\x68\x74\x74\x70\x73\x3A\x2F\x2F\x64\x6F\x63\x73\x2E\x67\x6F\x6F\x67\x6C\x65\x2E\x63\x6F\x6D\x2F\x66\x6F\x72\x6D\x73\x2F\x64\x2F\x65\x2F\x31\x46\x41\x49\x70\x51\x4C\x53\x63\x6D\x43\x48\x6F\x6B\x6E\x67\x32\x75\x77\x58\x4C\x68\x38\x6B\x6E\x67\x52\x68\x74\x43\x6B\x7A\x55\x7A\x6E\x65\x6F\x2D\x47\x4C\x6D\x68\x71\x48\x48\x41\x4E\x69\x37\x5A\x49\x4C\x61\x32\x4E\x51\x2F\x66\x6F\x72\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65';
@@ -46,15 +49,20 @@ function writepost_frmValidate() {
 	var img = document.getElementById('nonForm_img').value;
 	var bodytext = document.getElementById('entry_' + frmElms.post_text).value;
 	///
-	if (bodytext.replace(/\s/gm, " ").length < 300) {
-		formErrors = " Very short body text! Please write some more!   ";
+	var lng2tst = bodytext.replace(/\s/gm, " ").length;
+	// console.log(bodytext);
+	// console.log(lng2tst);
+	if (lng2tst < 200) {
+		// formErrors = " Very short body text! Please write some more!   ";
 	}
 	var emlch = document.getElementById('entry_' + frmElms.post_gUserEmail).value;
 	if (emlch.match(/@/)) {} else {
 		return false;
 	}
 	if (formErrors) {
-		alert(formErrors);
+		// alert(formErrors);
+		$('#formErrorAlert').remove();
+		$('#postSubmit').before('<div id="formErrorAlert" class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <span class="sr-only">Error:</span>' + formErrors + '</div>');
 		return false;
 	} else {
 		/// join img with bodytext
@@ -105,7 +113,7 @@ function fbAuth_login() {
 }
 
 function writepost_frmGood() {
-	alert("Thank you! Your post will now be submitted and should be published soon!");
+	alert(submitMsgOK);
 	window.location.href = writepost_frmGood_dest;
 };
 /**
@@ -359,7 +367,8 @@ function htmlWritePost(post_id, post_time, post_gUserNickName, post_gUserEmail, 
 		'<input name="entry.' + frmElms.user_aim + '" id="entry_' + frmElms.user_aim + '" data-comment="user_aim" value="' + user_aim + '" type="hidden"/>' +
 		'<input name="entry.' + frmElms.user_id + '" id="entry_' + frmElms.user_id + '" data-comment="user_id" value="' + user_id + '" type="hidden"/>' +
 		'<!-- SUBMIT -->' +
-		'<input class="btn btn-primary" type="submit" name="submit" value="Submit"/>' +
+		'<input id="postSubmit" class="btn btn-primary" type="submit" name="submit" value="Submit"/>' +
+		'<p>' + submitWarn + '</p>' +
 		'</form>' +
 		'';
 	return a;
@@ -433,6 +442,14 @@ $(document).ready(function() {
 					// 					memberInfo.user_gUserNickName + '</span>!<h3> <h1>Write a Post</h1>' +
 					htmlWritePost(post_id, post_time, post_gUserNickName, post_gUserEmail, post_gUserId, post_forumId, user_level, user_banned, user_from, user_aim, user_id) +
 					'');
+				////////////////////
+				var textarea = document.getElementById('entry_' + frmElms.post_text);
+				sceditor.create(textarea, {
+					toolbar: 'bold,italic|bulletlist,orderedlist,quote|image,youtube|link,unlink|removeformat,maximize',
+					format: 'xhtml',
+					style: 'https://cdnjs.cloudflare.com/ajax/libs/sceditor/2.1.3/themes/default.min.css'
+				});
+				//////////////////////
 			} else {
 				window.location.href = gRedirURL;
 			}
