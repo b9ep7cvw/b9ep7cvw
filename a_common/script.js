@@ -9,6 +9,7 @@ var writepost_frmGood_dest = "https://www.crickety.com/";
 var writepostURL = "https://a.crickety.com/writepost/"; // if index.html then dir-trailslash must!
 var gRedirURL = 'https://a.crickety.com/signin/auth/';
 var staticDir = "/a_common/";
+var signinHTML = '<h1>Please Log-In...</h1>';
 var submitWarn = ''; /// msg before Submit btn
 var submitMsgOK = 'Thank you! Your post will now be submitted and should be published soon!';
 // 
@@ -256,7 +257,7 @@ function htmlLogin() {
 	return '' +
 		'<div class="page-header"> ' +
 		'<div id="signinWrap">' + ///// used to hide button upon auth success
-		'<h1>Please Sign-In...</h1>' +
+		signinHTML +
 		// '<h3>Simple &amp; Easy One-Click Sign-In!<br/>  Use your existing account on</h3>' +
 		'<style>.signin img {width:100%;max-width:300px;margin:5px 0;}</style>' +
 		// go
